@@ -1,6 +1,6 @@
 package at.tugraz.ist.swe.photogallery;
 
-
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
@@ -20,7 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class ShowPictureEspressoTest {
     @Rule
-    public ActivityTestRule<ShowPicture> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<ShowPicture> showPictureTestRule = new ActivityTestRule<>(ShowPicture.class);
     @Test
     public void testButtonsVisible() {
         onView(withId(R.id.fullscreen_picture)).check(matches(isDisplayed()));
