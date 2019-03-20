@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 
 import at.tugraz.ist.swe.photogallery.ImageAdapter;
 
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -27,11 +29,9 @@ public class ImageAdapterInstrumentedTest {
     public void initialState() {
         ImageAdapter adapter = new ImageAdapter(mainActivityTestRule.getActivity());
         assertNotNull(adapter);
-        assertEquals(adapter.getCount(), 0);
-        assertEquals(adapter.GetItem(0), null);
-        assertEquals(adapter.GetItemId(0), 0);
-        assertNotNull(adapter.getView(0, null, null);
+        assertNotEquals(adapter.getCount(), 0);
+        assertNotEquals(adapter.getItem(1), null);
+        assertEquals(adapter.getItemId(1), 1);
     }
-
 
 }

@@ -1,20 +1,50 @@
 package at.tugraz.ist.swe.photogallery;
 
+import android.app.Activity;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    ArrayList<String> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GridView gallery = (GridView) findViewById(R.id.gallery);
+        gallery.setAdapter(new ImageAdapter(this));
+
+        gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (null != images && !images.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "position " + position + " "+ images.get(position), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -38,4 +68,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
