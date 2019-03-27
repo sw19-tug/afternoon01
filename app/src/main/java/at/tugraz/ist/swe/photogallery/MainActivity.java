@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         setContentView(R.layout.activity_main);
 
         GridView gallery = (GridView) findViewById(R.id.gallery);
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 
