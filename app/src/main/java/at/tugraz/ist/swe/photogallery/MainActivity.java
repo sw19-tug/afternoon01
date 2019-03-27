@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setContentView(R.layout.activity_main);
+        Spinner spinner = findViewById(R.id.spinner_toolBar);
+        String Spinner_value = spinner.getSelectedItem().toString();
+        spinner.setOnItemSelectedListener(this);
+        ImageAdapter ia = new ImageAdapter(this);
+        ia.sortImages(Spinner_value);
 
         GridView gallery = (GridView) findViewById(R.id.gallery);
         gallery.setAdapter(new ImageAdapter(this));
@@ -46,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     @Override
