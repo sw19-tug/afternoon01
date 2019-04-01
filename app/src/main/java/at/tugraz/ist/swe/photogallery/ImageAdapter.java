@@ -127,10 +127,12 @@ public class ImageAdapter extends BaseAdapter {
 
         if (Spinner_value.equals(name)) {
             orderBy = MediaStore.Images.Media.TITLE;//order data by Name
+            //System.out.println(Spinner_value);
 
         }
         if (Spinner_value.equals(size)) {
             orderBy = MediaStore.Images.Media.SIZE;//order data by Size
+            //System.out.println("Size");
         }
 
         Cursor imagecursor = context.managedQuery(
@@ -145,6 +147,7 @@ public class ImageAdapter extends BaseAdapter {
             galleryImageUrls.add(imagecursor.getString(dataColumnIndex));//get Image from column index
 
         }
+        //System.out.println("sort");
         images = galleryImageUrls;
     }
 }

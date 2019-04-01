@@ -34,13 +34,12 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setContentView(R.layout.activity_main);
-        Spinner spinner = findViewById(R.id.spinner_toolBar);
+        final Spinner spinner = findViewById(R.id.spinner_toolBar);
+        final ImageAdapter ia = new ImageAdapter(this);
         String Spinner_value = spinner.getSelectedItem().toString();
-        spinner.setOnItemSelectedListener(this);
-        ImageAdapter ia = new ImageAdapter(this);
         ia.sortImages(Spinner_value);
 
-        GridView gallery = (GridView) findViewById(R.id.gallery);
+        final GridView gallery = (GridView) findViewById(R.id.gallery);
         gallery.setAdapter(new ImageAdapter(this));
 
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,6 +48,20 @@ public class MainActivity extends AppCompatActivity {
                 if (null != images && !images.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "position " + position + " "+ images.get(position), Toast.LENGTH_SHORT).show();
                 }
+
+            }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //System.out.println(spinner.getSelectedItem().toString() + "\n");
+                String Spinner_value = spinner.getSelectedItem().toString();
+                ia.sortImages(Spinner_value);
+                gallery.setAdapter(ia);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
