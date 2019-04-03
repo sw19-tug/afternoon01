@@ -44,6 +44,10 @@ public class ImageAdapter extends BaseAdapter {
         return position;
     }
 
+    public String getItemUri(int position) {
+        return images.get(position);
+    }
+
 
     public View getView(final int position, View convertView,
                         ViewGroup parent) {

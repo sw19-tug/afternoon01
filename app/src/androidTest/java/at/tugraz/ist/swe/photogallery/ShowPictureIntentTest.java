@@ -15,6 +15,7 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -35,7 +36,7 @@ public class ShowPictureIntentTest {
     @Test
     public void testSelectPicture() {
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, new Intent());
-        intending(anyIntent()).respondWith(result);
+        intending(hasComponent(hasShortClassName(".ShowPicture"))).respondWith(result);
         ImageAdapter imageAdapter = new ImageAdapter(selectPictureRule.getActivity());
         assertNotNull(imageAdapter);
         assertTrue(imageAdapter.getCount() > 0);
