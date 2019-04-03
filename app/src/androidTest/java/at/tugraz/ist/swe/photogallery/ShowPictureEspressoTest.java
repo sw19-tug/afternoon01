@@ -13,6 +13,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.anything;
@@ -25,21 +27,16 @@ import static org.hamcrest.Matchers.anything;
 @RunWith(AndroidJUnit4.class)
 public class ShowPictureEspressoTest {
     @Rule
-    public ActivityTestRule<MainActivity> selectPictureRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> selectPictureRule = new ActivityTestRule<>(MainActivity.class, true, false);
 
     @Test
     public void testSelectPicture() {
-        onView(withId(R.id.gallery)).check(matches(isDisplayed()));
         ImageAdapter imageAdapter = new ImageAdapter(selectPictureRule.getActivity());
         assertNotNull(imageAdapter);
         assertTrue(imageAdapter.getCount() > 0);
         assertNotNull(imageAdapter.getItem(1));
         onData(anything()).inAdapterView(withId(R.id.gallery)).atPosition(0).perform(click());
-        onView(withId(R.id.fullscreen_picture)).check(matches(isDisplayed()));
+        intended(hasComponent(ShowPicture.class.getName()));
     }
 
-//    @Test
-//    public void testButtonsVisible() {
-//
-//    }
 }
