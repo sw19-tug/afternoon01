@@ -4,6 +4,10 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 import android.widget.GridView;
 
 import org.junit.Rule;
@@ -43,6 +47,42 @@ public class BasicGalleryInstrumentedTest {
     @Test
     public void checkGalleryIsDisplayed() {
         onView(withId(R.id.gallery)).check(matches(isDisplayed()));
+    }
+
+
+    public static void assertViewWithTextIsVisible(UiDevice device, String text) {
+        UiObject allowButton = device.findObject(new UiSelector().text(text));
+        if (!allowButton.exists()) {
+            throw new AssertionError("View with text <" + text + "> not found!");
+        }
+    }
+
+
+    public static void denyCurrentPermission(UiDevice device) throws UiObjectNotFoundException {
+        UiObject denyButton = device.findObject(new UiSelector().text("ABLEHNEN"));
+        denyButton.click();
+    }
+
+    @Test
+    public void shouldDisplayPermissionRequestDialogAtStartup() throws Exception {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        assertViewWithTextIsVisible(device, "ZULASSEN");
+        assertViewWithTextIsVisible(device, "ABLEHNEN");
+
+        // cleanup for the next test
+        denyCurrentPermission(device);
+    }
+
+    @Test
+    public void shouldDisplayPermissionRequestDialogOnDeny() throws Exception {
+        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        assertViewWithTextIsVisible(device, "ABLEHNEN");
+
+        // cleanup for the next test
+        denyCurrentPermission(device);
+        assertViewWithTextIsVisible(device, "ZULASSEN");
+        assertViewWithTextIsVisible(device, "ABLEHNEN");
+        denyCurrentPermission(device);
     }
 
 }
