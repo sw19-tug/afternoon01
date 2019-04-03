@@ -35,25 +35,6 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class BasicGalleryInstrumentedTest {
 
-    public static String ALLOW;
-    public static String DENY;
-
-    @BeforeClass
-    public static void beforeClass()
-    {
-        if(Locale.getDefault() == Locale.GERMAN)
-        {
-            ALLOW = "ZULASSEN";
-            DENY = "ABLEHNEN";
-        }
-        else
-        {
-            ALLOW = "ALLOW";
-            DENY =  "DENY";
-        }
-
-    }
-
     @Rule
     public ActivityTestRule<MainActivity> mainActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -62,7 +43,6 @@ public class BasicGalleryInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-
         assertEquals("at.tugraz.ist.swe.photogallery", appContext.getPackageName());
     }
 
@@ -77,34 +57,6 @@ public class BasicGalleryInstrumentedTest {
         if (!allowButton.exists()) {
             throw new AssertionError("View with text <" + text + "> not found!");
         }
-    }
-
-
-    public static void denyCurrentPermission(UiDevice device) throws UiObjectNotFoundException {
-        UiObject denyButton = device.findObject(new UiSelector().text(DENY));
-        denyButton.click();
-    }
-
-    @Test
-    public void shouldDisplayPermissionRequestDialogAtStartup() throws Exception {
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        assertViewWithTextIsVisible(device, ALLOW);
-        assertViewWithTextIsVisible(device, DENY);
-
-        // cleanup for the next test
-        denyCurrentPermission(device);
-    }
-
-    @Test
-    public void shouldDisplayPermissionRequestDialogOnDeny() throws Exception {
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        assertViewWithTextIsVisible(device, DENY);
-
-        // cleanup for the next test
-        denyCurrentPermission(device);
-        assertViewWithTextIsVisible(device, ALLOW);
-        assertViewWithTextIsVisible(device, DENY);
-        denyCurrentPermission(device);
     }
 
 }
