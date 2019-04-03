@@ -20,6 +20,7 @@ public class BasicGalleryInstrumentedAllowPermissionTest {
     public static String ALLOW;
     public static String DENY;
 
+
     @BeforeClass
     public static void beforeClass()
     {
