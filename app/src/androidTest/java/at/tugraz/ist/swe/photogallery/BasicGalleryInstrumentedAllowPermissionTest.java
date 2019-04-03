@@ -7,6 +7,7 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import java.util.Locale;
 import static at.tugraz.ist.swe.photogallery.BasicGalleryInstrumentedTest.assertViewWithTextIsVisible;
 
 public class BasicGalleryInstrumentedAllowPermissionTest {
-    UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+    public static UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     public static String ALLOW;
     public static String DENY;
 
@@ -34,7 +35,16 @@ public class BasicGalleryInstrumentedAllowPermissionTest {
             ALLOW = "ALLOW";
             DENY =  "DENY";
         }
+        InstrumentationRegistry.getInstrumentation().getUiAutomation().
+                executeShellCommand("pm revoke ${getTargetContext().packageName} android.permission.WRITE_EXTERNAL_STORAGE");
+        InstrumentationRegistry.getInstrumentation().getUiAutomation().
+                executeShellCommand("pm revoke ${getTargetContext().packageName} android.permission.READ_EXTERNAL_STORAGE");
 
+    }
+
+    @AfterClass
+    public static void afterClass() throws UiObjectNotFoundException {
+        allowCurrentPermission(device);
     }
 
     @Rule
@@ -67,6 +77,7 @@ public class BasicGalleryInstrumentedAllowPermissionTest {
 
         // cleanup for the next test
         denyCurrentPermission(device);
+        Thread.sleep(1000);
         assertViewWithTextIsVisible(device, ALLOW);
         assertViewWithTextIsVisible(device, DENY);
         denyCurrentPermission(device);
