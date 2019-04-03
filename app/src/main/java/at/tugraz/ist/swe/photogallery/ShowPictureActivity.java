@@ -3,7 +3,7 @@ package at.tugraz.ist.swe.photogallery;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class ShowPicture extends AppCompatActivity {
+public class ShowPictureActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

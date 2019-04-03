@@ -18,11 +18,9 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.anything;
 
 /**
@@ -31,7 +29,7 @@ import static org.hamcrest.Matchers.anything;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ShowPictureEspressoTest {
+public class ShowPictureActivityTest {
     @Rule
     public IntentsTestRule<MainActivity> selectPictureRule = new IntentsTestRule<>(MainActivity.class, true, true );
 
@@ -44,7 +42,7 @@ public class ShowPictureEspressoTest {
         assertTrue(imageAdapter.getCount() > 0);
         assertNotNull(imageAdapter.getItem(1));
         onData(anything()).inAdapterView(withId(R.id.gallery)).atPosition(0).perform(click());
-        intended(hasComponent(ShowPicture.class.getName()));
+        intended(hasComponent(ShowPictureActivity.class.getName()));
     }
 
 }
