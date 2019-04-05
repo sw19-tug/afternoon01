@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Spinner spinner = findViewById(R.id.spinner_toolBar);
         final ImageAdapter ia = new ImageAdapter(this);
-        String Spinner_value = spinner.getSelectedItem().toString();
-        ia.sortImages(Spinner_value);
+        String spinnerValue = spinner.getSelectedItem().toString();
+        ia.sortImages(spinnerValue);
 
         final GridView gallery = (GridView) findViewById(R.id.gallery);
-        gallery.setAdapter(new ImageAdapter(this));
+        gallery.setAdapter(ia);
 
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //System.out.println(spinner.getSelectedItem().toString() + "\n");
-                String Spinner_value = spinner.getSelectedItem().toString();
-                ia.sortImages(Spinner_value);
+                String spinnerValue = spinner.getSelectedItem().toString();
+                ia.sortImages(spinnerValue);
                 gallery.setAdapter(ia);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                Toast.makeText(getApplicationContext(), "Error, nothing selected in Sort Dropdown Menu!", Toast.LENGTH_SHORT).show();
             }
         });
     }

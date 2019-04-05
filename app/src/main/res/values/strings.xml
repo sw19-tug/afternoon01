@@ -2,7 +2,7 @@
     <string name="app_name">PhotoGallery</string>
     <string name="action_settings">Settings</string>
 
-    <string-array name="dropdown">
+    <string-array name="dropdown_sort">
         <item>Date</item>
         <item>Name</item>
         <item>Size</item>

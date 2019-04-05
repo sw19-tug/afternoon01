@@ -118,19 +118,19 @@ public class ImageAdapter extends BaseAdapter {
         return galleryImageUrls;
     }
 
-    public void sortImages(String Spinner_value) {
+    public void sortImages(String spinnerValue) {
         ArrayList<String> galleryImageUrls;
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};//get all columns of type images
         String orderBy = MediaStore.Images.Media.DATE_TAKEN;
         String name = "Name";
         String size = "Size";
 
-        if (Spinner_value.equals(name)) {
+        if (spinnerValue.equals(name)) {
             orderBy = MediaStore.Images.Media.TITLE;//order data by Name
             //System.out.println(Spinner_value);
 
         }
-        if (Spinner_value.equals(size)) {
+        if (spinnerValue.equals(size)) {
             orderBy = MediaStore.Images.Media.SIZE;//order data by Size
             //System.out.println("Size");
         }
