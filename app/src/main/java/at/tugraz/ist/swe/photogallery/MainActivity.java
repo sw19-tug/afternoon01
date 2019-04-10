@@ -1,12 +1,17 @@
 package at.tugraz.ist.swe.photogallery;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,11 +33,24 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> images;
 
+    //Permision code that will be checked in the method onRequestPermissionsResult
+    private int STORAGE_PERMISSION_CODE = 23;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Check Permission for Media
+        if(isReadStorageAllowed()){
+            loadImages();
+        } else {
+            requestStoragePermission();
+        }
+    }
+
+    private void loadImages() {
         setContentView(R.layout.activity_main);
         final Spinner spinner = findViewById(R.id.spinner_toolBar);
         final ImageAdapter ia = new ImageAdapter(this);
@@ -48,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 if (null != images && !images.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "position " + position + " "+ images.get(position), Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -86,6 +104,55 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //We are calling this method to check the permission status
+    private boolean isReadStorageAllowed() {
+        //Getting the permission status
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        //If permission is granted returning true
+        if (result == PackageManager.PERMISSION_GRANTED)
+            return true;
+
+        //If permission is not granted returning false
+        return false;
+    }
+
+    //Requesting permission
+    private void requestStoragePermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+            //If the user has denied the permission previously your code will come to this block
+            //Here you can explain why you need this permission
+            //Explain here why you need this permission
+            //requestStoragePermission();
+
+        }
+
+        //And finally ask for the permission
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
+    }
+
+
+    //This method will be called when the user will tap on allow or deny
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        //Checking the request code of our request
+        if(requestCode == STORAGE_PERMISSION_CODE){
+
+            //If permission is granted
+            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //Displaying a toast
+                Toast.makeText(this,"Permission granted now you can read the storage",Toast.LENGTH_LONG).show();
+                loadImages();
+            }else{
+                //Displaying another toast if permission is not granted
+                Toast.makeText(this,"Oops you just denied the permission",Toast.LENGTH_LONG).show();
+                requestStoragePermission();
+            }
+        }
     }
 
 }
