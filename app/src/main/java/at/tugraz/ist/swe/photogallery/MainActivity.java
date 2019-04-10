@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //System.out.println(spinner.getSelectedItem().toString() + "\n");
                 String spinnerValue = spinner.getSelectedItem().toString();
                 ia.sortImages(spinnerValue);
                 gallery.setAdapter(ia);

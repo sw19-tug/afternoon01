@@ -120,19 +120,17 @@ public class ImageAdapter extends BaseAdapter {
 
     public void sortImages(String spinnerValue) {
         ArrayList<String> galleryImageUrls;
-        final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};//get all columns of type images
+        final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
         String orderBy = MediaStore.Images.Media.DATE_TAKEN;
         String name = "Name";
         String size = "Size";
 
         if (spinnerValue.equals(name)) {
-            orderBy = MediaStore.Images.Media.TITLE;//order data by Name
-            //System.out.println(Spinner_value);
+            orderBy = MediaStore.Images.Media.TITLE;
 
         }
         if (spinnerValue.equals(size)) {
-            orderBy = MediaStore.Images.Media.SIZE;//order data by Size
-            //System.out.println("Size");
+            orderBy = MediaStore.Images.Media.SIZE;
         }
 
         Cursor imagecursor = context.managedQuery(
@@ -147,7 +145,6 @@ public class ImageAdapter extends BaseAdapter {
             galleryImageUrls.add(imagecursor.getString(dataColumnIndex));//get Image from column index
 
         }
-        //System.out.println("sort");
         images = galleryImageUrls;
     }
 }

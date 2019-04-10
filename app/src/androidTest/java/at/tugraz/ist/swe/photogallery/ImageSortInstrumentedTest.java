@@ -24,6 +24,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+
+import java.util.Arrays;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.allOf;
@@ -49,16 +52,10 @@ public class ImageSortInstrumentedTest {
     }
 
     @Test
-    public void checkGalleryIsDisplayed() {
-        onView(withId(R.id.gallery)).check(matches(isDisplayed()));
-    }
-
-    @Test
     public void checkSpinnerDate(){
         onView(withId(R.id.spinner_toolBar)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Date"))).perform(click());
         onView(withId(R.id.spinner_toolBar)).check(matches(withSpinnerText(containsString("Date"))));
-        onView(withId(R.id.gallery)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -66,9 +63,6 @@ public class ImageSortInstrumentedTest {
         onView(withId(R.id.spinner_toolBar)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Name"))).perform(click());
         onView(withId(R.id.spinner_toolBar)).check(matches(withSpinnerText(containsString("Name"))));
-        onView(withId(R.id.gallery)).check(matches(isDisplayed()));
-
-
     }
 
     @Test
@@ -76,7 +70,12 @@ public class ImageSortInstrumentedTest {
         onView(withId(R.id.spinner_toolBar)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Size"))).perform(click());
         onView(withId(R.id.spinner_toolBar)).check(matches(withSpinnerText(containsString("Size"))));
-        onView(withId(R.id.gallery)).check(matches(isDisplayed()));
+    }
+
+
+    @Test
+    public void checkSpinnerSizeAvailable(){
+        Arrays.asList(mainActivityTestRule.getActivity().getResources().getStringArray(R.array.dropdown_sort)).contains("Size");
     }
 
 }
