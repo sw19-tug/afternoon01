@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -51,9 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadImages() {
         setContentView(R.layout.activity_main);
+        final Spinner spinner = findViewById(R.id.spinner_toolBar);
+        final ImageAdapter ia = new ImageAdapter(this);
+        String spinnerValue = spinner.getSelectedItem().toString();
+        ia.sortImages(spinnerValue);
 
-        GridView gallery = (GridView) findViewById(R.id.gallery);
-        gallery.setAdapter(new ImageAdapter(this));
+        final GridView gallery = (GridView) findViewById(R.id.gallery);
+        gallery.setAdapter(ia);
 
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,6 +66,20 @@ public class MainActivity extends AppCompatActivity {
                 if (null != images && !images.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "position " + position + " "+ images.get(position), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String spinnerValue = spinner.getSelectedItem().toString();
+                ia.sortImages(spinnerValue);
+                gallery.setAdapter(ia);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getApplicationContext(), "Error, nothing selected in Sort Dropdown Menu!", Toast.LENGTH_SHORT).show();
             }
         });
     }

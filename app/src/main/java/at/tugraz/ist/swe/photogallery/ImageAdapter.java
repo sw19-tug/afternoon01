@@ -117,4 +117,34 @@ public class ImageAdapter extends BaseAdapter {
         Log.e("fatch in","images");
         return galleryImageUrls;
     }
+
+    public void sortImages(String spinnerValue) {
+        ArrayList<String> galleryImageUrls;
+        final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
+        String orderBy = MediaStore.Images.Media.DATE_TAKEN;
+        String name = "Name";
+        String size = "Size";
+
+        if (spinnerValue.equals(name)) {
+            orderBy = MediaStore.Images.Media.TITLE;
+
+        }
+        if (spinnerValue.equals(size)) {
+            orderBy = MediaStore.Images.Media.SIZE;
+        }
+
+        Cursor imagecursor = context.managedQuery(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
+                null, orderBy + " DESC");//get all data in Cursor by sorting in DESC order
+
+        galleryImageUrls = new ArrayList<String>();
+
+        for (int i = 0; i < imagecursor.getCount(); i++) {
+            imagecursor.moveToPosition(i);
+            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
+            galleryImageUrls.add(imagecursor.getString(dataColumnIndex));//get Image from column index
+
+        }
+        images = galleryImageUrls;
+    }
 }
