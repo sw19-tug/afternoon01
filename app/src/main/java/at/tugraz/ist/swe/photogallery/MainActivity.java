@@ -3,6 +3,7 @@ package at.tugraz.ist.swe.photogallery;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,14 +20,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GridView gallery = (GridView) findViewById(R.id.gallery);
-        gallery.setAdapter(new ImageAdapter(this));
+        final GridView gallery = (GridView) findViewById(R.id.gallery);
+        final ImageAdapter ia = new ImageAdapter(this);
+        gallery.setAdapter(ia);
 
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //parent.getAdapter().getItem(position);
                 Intent intent = new Intent(getApplicationContext(), ShowPictureActivity.class);
+                intent.putExtra("picture_uri", ia.getItemUri(position));
+                Log.i("iURI", ia.getItemUri(position));
                 startActivity(intent);
             }
         });
