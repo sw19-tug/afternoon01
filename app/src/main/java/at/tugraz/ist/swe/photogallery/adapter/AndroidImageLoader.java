@@ -33,12 +33,10 @@ public class AndroidImageLoader extends ImageLoader {
         if (order == ImageAdapter.ImageOrder.NAME) {
             orderBy = MediaStore.Images.Media.TITLE;
 
-        }
-        else if (order == ImageAdapter.ImageOrder.DATE) {
+        } else if (order == ImageAdapter.ImageOrder.DATE) {
             orderBy = MediaStore.Images.Media.DATE_TAKEN;
 
-        }
-        else {
+        } else {
             orderBy = MediaStore.Images.Media.SIZE;
         }
 

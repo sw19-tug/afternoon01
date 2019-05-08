@@ -13,12 +13,14 @@ public class TestLoader extends ImageLoader {
     ArrayList<String> sizeSorted;
     ArrayList<String> dateSorted;
     ArrayList<String> nameSorted;
+    View view;
 
-    public TestLoader(ArrayList<String> size, ArrayList<String> date, ArrayList<String> name)
+    public TestLoader(ArrayList<String> size, ArrayList<String> date, ArrayList<String> name, DummyView view)
     {
         this.sizeSorted = size;
         this.dateSorted = date;
         this.nameSorted = name;
+        this.view = view;
     }
     @Override
     public ArrayList<String> fetchGalleryImages(ImageAdapter.ImageOrder order) {
@@ -38,6 +40,6 @@ public class TestLoader extends ImageLoader {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent, ArrayList<String> images) {
-        return null;
+        return view;
     }
 }
