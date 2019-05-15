@@ -17,16 +17,8 @@ public class BasicGalleryLandscapeInstrumentedTest {
     @Test
     public void checkLandscapeOrientation() throws InterruptedException {
 
-        //int orientation = mainActivityActivityTestRule.getActivity().getResources().getConfiguration().orientation;
         mainActivityActivityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Thread.sleep(500);
-        assertTrue(mainActivityActivityTestRule.getActivity().getRequestedOrientation() == Configuration.ORIENTATION_LANDSCAPE);
-        /*
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // In landscape
-        } else {
-            // In portrait
-        }
-        */
+        assertTrue(mainActivityActivityTestRule.getActivity().getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 }
