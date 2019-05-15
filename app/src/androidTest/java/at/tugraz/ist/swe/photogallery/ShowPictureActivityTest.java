@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static junit.framework.TestCase.assertNotNull;
+
 /**
  * Instrumented test, which will execute on an Android device.
  *
@@ -42,8 +44,7 @@ public class ShowPictureActivityTest {
         intent.setData(uri);
         showPictureRule.launchActivity(intent);
 
-        ((ImageView)showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable().isVisible();
-
+        assertNotNull(((ImageView)showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable());
     }
 
     private void copyFile(InputStream is, OutputStream os) throws IOException {
