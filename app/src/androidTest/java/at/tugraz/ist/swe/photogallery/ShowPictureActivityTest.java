@@ -5,6 +5,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import org.junit.Rule;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
@@ -47,7 +49,7 @@ public class ShowPictureActivityTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
     @Rule
-    public ActivityTestRule<MainActivity> showPictureRule = new ActivityTestRule<>(MainActivity.class, true, false);
+    public ActivityTestRule<ShowPictureActivity> showPictureRule = new ActivityTestRule<>(ShowPictureActivity.class, true, false);
 
     @Test
     public void testSelectPicture() throws IOException {
@@ -56,7 +58,8 @@ public class ShowPictureActivityTest {
         Files.copy(asset_stream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         Intent intent = new Intent();
-        intent.setData(Uri.fromFile(tempFile));
+        Uri uri = Uri.parse(tempFile.toPath().toString());
+        intent.setData(uri);
         showPictureRule.launchActivity(intent);
 
         ((ImageView)showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable().isVisible();

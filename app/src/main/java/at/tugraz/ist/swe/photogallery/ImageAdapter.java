@@ -44,8 +44,8 @@ public class ImageAdapter extends BaseAdapter {
         return position;
     }
 
-    public String getItemUri(int position) {
-        return images.get(position);
+    public Uri getItemUri(int position) {
+        return Uri.parse(images.get(position));
     }
 
 
@@ -61,6 +61,8 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             picturesView = (ImageView) convertView;
         }
+
+
 
         Glide.with(context).load(images.get(position))
                 .placeholder(R.drawable.ic_launcher_foreground).centerCrop()

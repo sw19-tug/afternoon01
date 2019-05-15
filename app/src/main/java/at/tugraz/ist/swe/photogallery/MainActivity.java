@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //parent.getAdapter().getItem(position);
                 Intent intent = new Intent(getApplicationContext(), ShowPictureActivity.class);
-                intent.putExtra("picture_uri", ia.getItemUri(position));
-                Log.i("iURI", ia.getItemUri(position));
+                intent.setData(ia.getItemUri(position));
+                Log.i("iURI", ia.getItemUri(position).toString());
                 startActivity(intent);
             }
         });
