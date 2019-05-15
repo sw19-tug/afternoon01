@@ -1,12 +1,14 @@
 package at.tugraz.ist.swe.photogallery;
 
 
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
+
 import at.tugraz.ist.swe.photogallery.ImageAdapter;
 
 import static junit.framework.TestCase.assertEquals;
