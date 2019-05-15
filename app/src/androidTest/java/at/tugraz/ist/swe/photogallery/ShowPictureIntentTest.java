@@ -10,6 +10,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import at.tugraz.ist.swe.photogallery.adapter.ImageAdapter;
+import at.tugraz.ist.swe.photogallery.adapter.ImageAdapterFactory;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -35,7 +38,7 @@ public class ShowPictureIntentTest {
     public void testSelectPicture() {
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, new Intent());
         intending(hasComponent(hasShortClassName(".ShowPicture"))).respondWith(result);
-        ImageAdapter imageAdapter = new ImageAdapter(selectPictureRule.getActivity());
+        ImageAdapter imageAdapter = ImageAdapterFactory.generateImageAdapter(selectPictureRule.getActivity());
         assertNotNull(imageAdapter);
         assertTrue(imageAdapter.getCount() > 0);
         assertNotNull(imageAdapter.getItem(1));
