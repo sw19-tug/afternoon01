@@ -1,10 +1,8 @@
 package at.tugraz.ist.swe.photogallery;
 
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.support.test.rule.ActivityTestRule;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 
