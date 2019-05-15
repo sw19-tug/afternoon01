@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -51,11 +52,14 @@ public class ShowPictureActivityTest {
     @Test
     public void testSelectPicture() throws IOException {
         File tempFile = tempFolder.newFile();
-        Files.copy(getApplicationContext().getResources().getAssets().open("test_image.jpg"), tempFile.toPath());
+        InputStream asset_stream = this.getClass().getClassLoader().getResourceAsStream("test_image.jpg");
+        Files.copy(asset_stream, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         Intent intent = new Intent();
         intent.setData(Uri.fromFile(tempFile));
         showPictureRule.launchActivity(intent);
+
+        ((ImageView)showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable().isVisible();
 
     }
 
