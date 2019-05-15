@@ -1,7 +1,9 @@
 package at.tugraz.ist.swe.photogallery.adapter;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,21 +42,19 @@ public class AndroidImageLoader extends ImageLoader {
             orderBy = MediaStore.Images.Media.SIZE;
         }
 
-        Cursor imagecursor = context.managedQuery(
+        Cursor imageCursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
-                null, orderBy + " DESC");//get all data in Cursor by sorting in DESC order
-
+                null, orderBy + " DESC");
         galleryImageUrls = new ArrayList<String>();
 
-        for (int i = 0; i < imagecursor.getCount(); i++) {
-            imagecursor.moveToPosition(i);
-            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);//get column index
-            galleryImageUrls.add(imagecursor.getString(dataColumnIndex));//get Image from column index
+        for (int i = 0; i < imageCursor.getCount(); i++) {
+            imageCursor.moveToPosition(i);
+            int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
+            galleryImageUrls.add(imageCursor. getString(dataColumnIndex));
         }
         return galleryImageUrls;
 
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent, ArrayList<String> images) {
 
