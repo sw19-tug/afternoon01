@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import at.tugraz.ist.swe.photogallery.adapter.ImageAdapter;
+import at.tugraz.ist.swe.photogallery.adapter.ImageAdapterFactory;
+
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> images;
 
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadImages() {
         setContentView(R.layout.activity_main);
         final Spinner spinner = findViewById(R.id.spinner_toolBar);
-        final ImageAdapter ia = new ImageAdapter(this);
+        final ImageAdapter ia = ImageAdapterFactory.generateImageAdapter(this);
         String spinnerValue = spinner.getSelectedItem().toString();
         ia.sortImages(spinnerValue);
 
