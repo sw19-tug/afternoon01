@@ -1,5 +1,8 @@
 package at.tugraz.ist.swe.photogallery;
 
+
+import android.content.Intent;
+import android.util.Log;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -54,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (null != images && !images.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "position " + position + " "+ images.get(position), Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(getApplicationContext(), ShowPictureActivity.class);
+                intent.setData(ia.getItemUri(position));
+                Log.i("iURI", ia.getItemUri(position).toString());
+                startActivity(intent);
             }
         });
 

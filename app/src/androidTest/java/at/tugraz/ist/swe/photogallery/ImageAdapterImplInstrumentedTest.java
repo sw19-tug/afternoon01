@@ -1,5 +1,6 @@
 package at.tugraz.ist.swe.photogallery;
 
+
 import android.Manifest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;

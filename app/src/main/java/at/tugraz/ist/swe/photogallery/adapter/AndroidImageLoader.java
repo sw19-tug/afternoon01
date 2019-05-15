@@ -1,9 +1,7 @@
 package at.tugraz.ist.swe.photogallery.adapter;
 
 import android.app.Activity;
-import android.content.ContentUris;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;

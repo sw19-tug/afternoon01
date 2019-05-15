@@ -1,5 +1,6 @@
 package at.tugraz.ist.swe.photogallery.adapter;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,10 @@ public class ImageAdapter extends BaseAdapter {
 
     public Object getItem(int position) {
         return position;
+    }
+
+    public Uri getItemUri(int position){
+        return Uri.parse(images.get(position));
     }
 
     public long getItemId(int position) {
