@@ -2,6 +2,11 @@ package at.tugraz.ist.swe.photogallery;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -15,11 +20,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapter;
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapterFactory;
@@ -48,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Spinner spinner = findViewById(R.id.spinner_toolBar);
         final ImageAdapter ia = ImageAdapterFactory.generateImageAdapter(this);
+        final Button camera = findViewById(R. id. camera);
         String spinnerValue = spinner.getSelectedItem().toString();
         ia.sortImages(spinnerValue);
 
@@ -77,6 +89,49 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error, nothing selected in Sort Dropdown Menu!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        final int pic_id = 123;
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
+
+                }
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            "com.example.android.fileprovider",
+                            photoFile);
+                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(camera_intent, pic_id);
+                }
+
+
+            }
+
+            String currentPhotoPath;
+
+            private File createImageFile() throws IOException {
+                // Create an image file name
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                String imageFileName = "JPEG_" + timeStamp + "_";
+                File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                File image = File.createTempFile(
+                        imageFileName,  /* prefix */
+                        ".jpg",         /* suffix */
+                        storageDir      /* directory */
+                );
+
+                // Save a file: path for use with ACTION_VIEW intents
+                currentPhotoPath = image.getAbsolutePath();
+                return image;
+            }
+
+        });
+
     }
 
     @Override
@@ -149,5 +204,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void CameraUse()
+    {
+
+
+    }
+
 
 }
