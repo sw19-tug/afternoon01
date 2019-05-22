@@ -91,47 +91,52 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final int pic_id = 123;
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
+        if (isCameraAllowed()){
+            camera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    File photoFile = null;
+                    try {
+                        photoFile = createImageFile();
+                    } catch (IOException ex) {
+
+                    }
+                    if (photoFile != null) {
+                        Uri photoURI = FileProvider.getUriForFile(this,
+                                "com.example.android.fileprovider",
+                                photoFile);
+                        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                        startActivityForResult(camera_intent, pic_id);
+                    }
+
 
                 }
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(camera_intent, pic_id);
+
+                String currentPhotoPath;
+
+                private File createImageFile() throws IOException {
+                    // Create an image file name
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    String imageFileName = "JPEG_" + timeStamp + "_";
+                    File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                    File image = File.createTempFile(
+                            imageFileName,  /* prefix */
+                            ".jpg",         /* suffix */
+                            storageDir      /* directory */
+                    );
+
+                    // Save a file: path for use with ACTION_VIEW intents
+                    currentPhotoPath = image.getAbsolutePath();
+                    return image;
                 }
 
-
-            }
-
-            String currentPhotoPath;
-
-            private File createImageFile() throws IOException {
-                // Create an image file name
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "JPEG_" + timeStamp + "_";
-                File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                File image = File.createTempFile(
-                        imageFileName,  /* prefix */
-                        ".jpg",         /* suffix */
-                        storageDir      /* directory */
-                );
-
-                // Save a file: path for use with ACTION_VIEW intents
-                currentPhotoPath = image.getAbsolutePath();
-                return image;
-            }
-
-        });
-
+            });
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Error, no camera permission!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -205,11 +210,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void CameraUse()
-    {
+    //We are calling this method to check the permission status
+    private boolean isCameraAllowed() {
+        //Getting the permission status
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
+        //If permission is granted returning true
+        if (result == PackageManager.PERMISSION_GRANTED)
+            return true;
 
+        //If permission is not granted returning false
+        return false;
     }
-
 
 }
