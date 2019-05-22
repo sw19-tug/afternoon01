@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -50,6 +54,74 @@ public class ShowPictureActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        ImageView rotateLeftIcon = findViewById(R.id.icon_rotate_left);
+        ImageView rotateRightIcon = findViewById(R.id.icon_rotate_right);
+
+        final ImageView rotateLeftAnimation = findViewById(R.id.icon_rotate_left_animation);
+        final ImageView rotateRightAnimation = findViewById(R.id.icon_rotate_right_animation);
+
+        rotateLeftIcon.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AnimationSet animationSet = new AnimationSet(true);
+
+                Animation fadeInAnimation = new AlphaAnimation(0.f, 1.f);
+                fadeInAnimation.setDuration(800);
+                Animation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
+                scaleAnimation.setDuration(1000);
+                Animation fadeOutAnimation = new AlphaAnimation(1.f, 0.f);
+                fadeOutAnimation.setDuration(200);
+                fadeOutAnimation.setStartOffset(800);
+
+                animationSet.addAnimation(fadeInAnimation);
+                animationSet.addAnimation(scaleAnimation);
+                animationSet.addAnimation(fadeOutAnimation);
+
+                animationSet.setAnimationListener(new Animation.AnimationListener() {
+                    public void onAnimationEnd(Animation animation) {
+                        rotateLeftAnimation.setVisibility(View.INVISIBLE);
+                    }
+
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+
+                    public void onAnimationStart(Animation animation) {
+                        rotateLeftAnimation.setVisibility(View.VISIBLE);
+                    }
+                });
+                rotateLeftAnimation.startAnimation(animationSet);
+            }
+        });
+        rotateRightIcon.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AnimationSet animationSet = new AnimationSet(true);
+
+                Animation fadeInAnimation = new AlphaAnimation(0.f, 1.f);
+                fadeInAnimation.setDuration(800);
+                Animation scaleAnimation = new ScaleAnimation(0f, 1f, 0f, 1f, Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
+                scaleAnimation.setDuration(1000);
+                Animation fadeOutAnimation = new AlphaAnimation(1.f, 0.f);
+                fadeOutAnimation.setDuration(200);
+                fadeOutAnimation.setStartOffset(800);
+
+                animationSet.addAnimation(fadeInAnimation);
+                animationSet.addAnimation(scaleAnimation);
+                animationSet.addAnimation(fadeOutAnimation);
+
+                animationSet.setAnimationListener(new Animation.AnimationListener() {
+                    public void onAnimationEnd(Animation animation) {
+                        rotateRightAnimation.setVisibility(View.INVISIBLE);
+                    }
+
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+
+                    public void onAnimationStart(Animation animation) {
+                        rotateRightAnimation.setVisibility(View.VISIBLE);
+                    }
+                });
+                rotateRightAnimation.startAnimation(animationSet);
+            }
+        });
 
     }
 
