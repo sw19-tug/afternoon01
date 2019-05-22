@@ -2,10 +2,15 @@ package at.tugraz.ist.swe.photogallery;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -17,6 +22,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 /**
@@ -26,13 +38,14 @@ import static junit.framework.TestCase.assertNotNull;
  */
 @RunWith(AndroidJUnit4.class)
 public class ShowPictureActivityTest {
+
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
     @Rule
     public ActivityTestRule<ShowPictureActivity> showPictureRule = new ActivityTestRule<>(ShowPictureActivity.class, true, false);
 
-    @Test
-    public void testSelectPicture() throws IOException {
+    @Before
+    public void setUp() throws IOException {
         File tempFile = tempFolder.newFile();
         InputStream asset_stream = this.getClass().getClassLoader().getResourceAsStream("test_image.jpg");
 
@@ -43,9 +56,8 @@ public class ShowPictureActivityTest {
         Uri uri = Uri.parse(tempFile.toString());
         intent.setData(uri);
         showPictureRule.launchActivity(intent);
-
-        assertNotNull(((ImageView)showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable());
     }
+
 
     private void copyFile(InputStream is, OutputStream os) throws IOException {
         // the size of the buffer doesn't have to be exactly 1024 bytes, try playing around with this number and see what effect it will have on the performance
@@ -56,5 +68,43 @@ public class ShowPictureActivityTest {
         }
 
     }
+
+    @Test
+    public void testSelectPicture()  {
+        assertNotNull(((ImageView)showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable());
+    }
+
+
+    @Test
+    public void testToolbarExists() {
+        assertNotNull(showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen));
+    }
+
+    @Test
+    public void testMenuExists() {
+        Toolbar toolbar = showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen);
+        assertNotNull(toolbar.getMenu());
+    }
+
+    @Test
+    public void testMenuItemsExist() {
+        Toolbar toolbar = showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen);
+        Menu menu = toolbar.getMenu();
+        assertNotNull(menu);
+        assertTrue(menu.hasVisibleItems());
+        assertEquals(1, menu.size());
+    }
+    @Test
+    public void testShareItemExists() {
+        Toolbar toolbar = showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen);
+        Menu menu = toolbar.getMenu();
+        assertNotNull(menu);
+        MenuItem share = menu.findItem(R.id.action_share);
+        assertNotNull(share);
+    }
+
+
+
+
 
 }
