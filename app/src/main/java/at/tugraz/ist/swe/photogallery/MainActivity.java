@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(camera_intent, pic_id);
+                if (camera_intent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(camera_intent, pic_id);
+                }
             }
         });
 
