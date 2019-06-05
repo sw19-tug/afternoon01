@@ -1,9 +1,11 @@
 package at.tugraz.ist.swe.photogallery;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +21,24 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class ShowPictureActivity extends AppCompatActivity {
+    private boolean isUIhidden;
+    private String file_location;
+    private ImageView iv;
 
-    boolean isUIhidden;
-    String file_location;
-    ImageView iv;
+
+    public void triggerShareAction() {
+        Intent share_intent = getDefaultShareIntent();
+        getApplicationContext().startActivity(share_intent);
+    }
+
+    private Intent getDefaultShareIntent(){
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/png");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(file_location));
+        return intent;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +49,7 @@ public class ShowPictureActivity extends AppCompatActivity {
         isUIhidden = true;
         file_location = getIntent().getDataString();
         iv = findViewById(R.id.fullscreen_picture);
+
         try {
             updateImage();
         } catch(FileNotFoundException ex) {
@@ -57,6 +74,15 @@ public class ShowPictureActivity extends AppCompatActivity {
 
         ImageButton ib_rotate_left = findViewById(R.id.button_rotate_left);
         ImageButton ib_rotate_right = findViewById(R.id.button_rotate_right);
+        ImageButton ib_share = findViewById(R.id.button_share);
+
+
+        ib_share.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                triggerShareAction();
+            }
+        });
 
         ib_rotate_left.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
