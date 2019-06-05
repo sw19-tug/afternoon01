@@ -28,14 +28,14 @@ public class ShowPictureActivity extends AppCompatActivity {
 
     public void triggerShareAction() {
         Intent share_intent = getDefaultShareIntent();
-        getApplicationContext().startActivity(share_intent);
+        startActivity(Intent.createChooser(share_intent, "Share images..."));
     }
 
     private Intent getDefaultShareIntent(){
-
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/png");
         intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(file_location));
+        intent.setType("image/*");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         return intent;
     }
 
