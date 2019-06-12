@@ -1,29 +1,26 @@
 package at.tugraz.ist.swe.photogallery;
 
 
-import android.content.Context;
+import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,7 +29,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapter;
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapterFactory;
@@ -107,9 +103,6 @@ public class MainActivity extends AppCompatActivity {
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, file);
                         startActivityForResult(cameraIntent, PIC_ID);
                         galleryAddPic();
-                        if (file == null){
-                            getContentResolver().delete(file, null, null);
-                        }
                     }
 
                 }catch (Exception e)
