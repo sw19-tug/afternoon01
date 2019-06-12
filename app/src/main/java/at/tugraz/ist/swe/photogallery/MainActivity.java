@@ -1,6 +1,7 @@
 package at.tugraz.ist.swe.photogallery;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Permision code that will be checked in the method onRequestPermissionsResult
     private int STORAGE_PERMISSION_CODE = 23;
+    final int pic_id = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,35 +92,36 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error, nothing selected in Sort Dropdown Menu!", Toast.LENGTH_SHORT).show();
             }
         });
-        final int pic_id = 1;
+
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                Uri file = getUri();
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+
+
                 try{
                     if (camera_intent.resolveActivity(getPackageManager()) != null) {
+                        Uri file = getUri();
+                        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
                         startActivityForResult(camera_intent, pic_id);
-                        System.out.println(file);
+                        galleryAddPic();
                     }
+
                 }catch (Exception e)
                 {e.printStackTrace();}
             }
+
         });
 
     }
     private Uri getUri(){
-        if (getFile() != null) {
             Uri file = FileProvider.getUriForFile(this, "com.example.android.fileprovider", getFile());
             return file;
-        }
-        return null;
     }
 
     String mCurrentPhotoPath;
     private File getFile() {
-        try {
+
             File folder = new File(getExternalFilesDir(
                     Environment.DIRECTORY_PICTURES), "Camera");// the file path
 
@@ -139,14 +142,21 @@ public class MainActivity extends AppCompatActivity {
 
             mCurrentPhotoPath = image_file.getAbsolutePath();
             return image_file;
-        }catch (Exception e)
-        {e.printStackTrace();}
-        return null;
+    }
+
+
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
     }
 
 
 
-            @Override
+
+    @Override
             public boolean onCreateOptionsMenu(Menu menu) {
                 // Inflate the menu; this adds items to the action bar if it is present.
                 getMenuInflater().inflate(R.menu.menu_main, menu);
