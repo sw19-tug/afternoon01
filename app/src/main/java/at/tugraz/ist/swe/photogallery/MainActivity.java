@@ -3,7 +3,10 @@ package at.tugraz.ist.swe.photogallery;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -23,7 +26,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapter;
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapterFactory;
@@ -82,19 +89,59 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error, nothing selected in Sort Dropdown Menu!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        final int pic_id = 123;
+        final int pic_id = 1;
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (camera_intent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(camera_intent, pic_id);
-                }
+                Uri file = getUri();
+                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+                try{
+                    if (camera_intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(camera_intent, pic_id);
+                    }
+                }catch (Exception e)
+                {e.printStackTrace();}
             }
         });
 
     }
+    private Uri getUri(){
+        if (getFile() != null) {
+            Uri file = FileProvider.getUriForFile(this, "com.example.android.fileprovider", getFile());
+            return file;
+        }
+        return null;
+    }
+
+    String mCurrentPhotoPath;
+    private File getFile() {
+        try {
+            File folder = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "Camera");// the file path
+
+            //if it doesn't exist the folder will be created
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File image_file = null;
+
+            try {
+                image_file = File.createTempFile(imageFileName, ".jpg", folder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mCurrentPhotoPath = image_file.getAbsolutePath();
+            return image_file;
+        }catch (Exception e)
+        {e.printStackTrace();}
+        return null;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
