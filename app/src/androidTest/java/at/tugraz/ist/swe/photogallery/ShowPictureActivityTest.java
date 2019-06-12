@@ -1,6 +1,5 @@
 package at.tugraz.ist.swe.photogallery;
 
-import android.app.ActivityManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.test.rule.ActivityTestRule;
@@ -8,7 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +20,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertTrue;
@@ -92,6 +89,50 @@ public class ShowPictureActivityTest {
         assertTrue(share.isClickable());
         onView(withId(R.id.fullscreen_picture)).perform(click());
         onView(withId(R.id.button_share)).perform(click());
+    }
+
+    @Test
+    public void rotateLeftButtonExists() {
+        ImageButton rotate_left = showPictureRule.getActivity().findViewById(R.id.button_rotate_left);
+        assertNotNull(rotate_left);
+    }
+
+    @Test
+    public void rotateRightButtonExists() {
+        ImageButton rotate_right = showPictureRule.getActivity().findViewById(R.id.button_rotate_right);
+        assertNotNull(rotate_right);
+    }
+
+    @Test
+    public void rotateLeftButtonEnabled() {
+        ImageButton rotate_left = showPictureRule.getActivity().findViewById(R.id.button_rotate_left);
+        assertNotNull(rotate_left);
+        assertTrue(rotate_left.isEnabled());
+    }
+
+    @Test
+    public void rotateRightButtonEnabled() {
+        ImageButton rotate_right = showPictureRule.getActivity().findViewById(R.id.button_rotate_right);
+        assertNotNull(rotate_right);
+        assertTrue(rotate_right.isEnabled());
+    }
+
+    @Test
+    public void rotateLeftButtonClickable() {
+        ImageButton rotate_left = showPictureRule.getActivity().findViewById(R.id.button_rotate_left);
+        assertNotNull(rotate_left);
+        assertTrue(rotate_left.isClickable());
+        onView(withId(R.id.fullscreen_picture)).perform(click());
+        onView(withId(R.id.button_rotate_left)).perform(click());
+    }
+
+    @Test
+    public void rotateRightButtonClickable() {
+        ImageButton rotate_right = showPictureRule.getActivity().findViewById(R.id.button_rotate_right);
+        assertNotNull(rotate_right);
+        assertTrue(rotate_right.isClickable());
+        onView(withId(R.id.fullscreen_picture)).perform(click());
+        onView(withId(R.id.button_rotate_right)).perform(click());
     }
 
 }
