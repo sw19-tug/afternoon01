@@ -31,7 +31,7 @@ public class ShowPictureActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(share_intent, "Share images..."));
     }
 
-    private Intent getDefaultShareIntent(){
+    private Intent getDefaultShareIntent() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(file_location));
         intent.setType("image/*");
@@ -52,7 +52,7 @@ public class ShowPictureActivity extends AppCompatActivity {
 
         try {
             updateImage();
-        } catch(FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             Toast toast = Toast.makeText(this.getApplicationContext(), "Could not rotate image: File not found!", Toast.LENGTH_LONG);
             toast.show();
         }
@@ -60,8 +60,8 @@ public class ShowPictureActivity extends AppCompatActivity {
         ConstraintLayout cl = findViewById(R.id.fullscreen_layout);
         cl.setOnClickListener(new ConstraintLayout.OnClickListener() {
             @Override
-            public void onClick(View v){
-                if(isUIhidden){
+            public void onClick(View v) {
+                if (isUIhidden) {
                     showUI();
                     isUIhidden = false;
                 } else {
@@ -79,17 +79,17 @@ public class ShowPictureActivity extends AppCompatActivity {
 
         ib_share.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 triggerShareAction();
             }
         });
 
         ib_rotate_left.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 try {
                     rotateImage(270);
-                } catch (FileNotFoundException ex){
+                } catch (FileNotFoundException ex) {
                     Toast toast = Toast.makeText(v.getContext(), "Could not rotate image: File not found!", Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -98,10 +98,10 @@ public class ShowPictureActivity extends AppCompatActivity {
 
         ib_rotate_right.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 try {
                     rotateImage(90);
-                } catch (FileNotFoundException ex){
+                } catch (FileNotFoundException ex) {
                     Toast toast = Toast.makeText(v.getContext(), "Could not rotate image: File not found!", Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -109,32 +109,30 @@ public class ShowPictureActivity extends AppCompatActivity {
         });
     }
 
-    protected void hideUI(){
+    protected void hideUI() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                // Hide the nav bar and status bar
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
         LinearLayout ab = findViewById(R.id.layout_action_bar);
         ab.setVisibility(View.INVISIBLE);
 
     }
-    protected void showUI(){
+
+    protected void showUI() {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         LinearLayout ab = findViewById(R.id.layout_action_bar);
         ab.setVisibility(View.VISIBLE);
     }
 
-    protected FileInputStream getImageStream (String file_location) throws FileNotFoundException {
-            File file = new File(file_location);
-            return new FileInputStream(file);
+    protected FileInputStream getImageStream(String file_location) throws FileNotFoundException {
+        File file = new File(file_location);
+        return new FileInputStream(file);
     }
 
     protected void updateImage() throws FileNotFoundException {

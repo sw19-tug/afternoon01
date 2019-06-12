@@ -20,6 +20,7 @@
         android:id="@+id/layout_action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#A4FFFFFF"
         android:baselineAligned="false"
         android:gravity="bottom|center_horizontal"
         android:orientation="horizontal"
@@ -51,10 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:actionProviderClass="android.widget.ShareActionProvider"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/share_image"
-            android:actionProviderClass=
-                "android.widget.ShareActionProvider"
             app:srcCompat="@drawable/ic_baseline_share_24px" />
     </LinearLayout>
 
