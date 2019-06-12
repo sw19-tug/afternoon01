@@ -37,12 +37,14 @@ import java.util.Date;
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapter;
 import at.tugraz.ist.swe.photogallery.adapter.ImageAdapterFactory;
 
+import static android.os.Environment.getExternalStoragePublicDirectory;
+
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> images;
 
     //Permision code that will be checked in the method onRequestPermissionsResult
     private int STORAGE_PERMISSION_CODE = 23;
-    final int pic_id = 1;
+    final int PIC_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,15 +98,18 @@ public class MainActivity extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
 
                 try{
-                    if (camera_intent.resolveActivity(getPackageManager()) != null) {
+                    if (cameraIntent.resolveActivity(getPackageManager()) != null) {
                         Uri file = getUri();
-                        camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-                        startActivityForResult(camera_intent, pic_id);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+                        startActivityForResult(cameraIntent, PIC_ID);
                         galleryAddPic();
+                        if (file == null){
+                            getContentResolver().delete(file, null, null);
+                        }
                     }
 
                 }catch (Exception e)
@@ -112,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
     }
     private Uri getUri(){
             Uri file = FileProvider.getUriForFile(this, "com.example.android.fileprovider", getFile());
@@ -122,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     private File getFile() {
 
-            File folder = new File(getExternalFilesDir(
-                    Environment.DIRECTORY_PICTURES), "Camera");// the file path
+            File folder = new File(getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM), "Camera");// the file path
 
             //if it doesn't exist the folder will be created
             if (!folder.exists()) {
@@ -151,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
+        loadImages();
     }
 
 
