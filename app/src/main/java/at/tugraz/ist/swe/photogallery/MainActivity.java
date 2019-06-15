@@ -129,16 +129,16 @@ public class MainActivity extends AppCompatActivity {
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_";
-            File image_file = null;
+            File imageFile = null;
 
             try {
-                image_file = File.createTempFile(imageFileName, ".jpg", folder);
+                imageFile = File.createTempFile(imageFileName, ".jpg", folder);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            mCurrentPhotoPath = image_file.getAbsolutePath();
-            return image_file;
+            mCurrentPhotoPath = imageFile.getAbsolutePath();
+            return imageFile;
     }
 
 
@@ -215,11 +215,11 @@ public class MainActivity extends AppCompatActivity {
                     //If permission is granted
                     if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         //Displaying a toast
-                        Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.permission_granted), Toast.LENGTH_LONG).show();
                         loadImages();
                     } else {
                         //Displaying another toast if permission is not granted
-                        Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_LONG).show();
                         requestStoragePermission();
                     }
                 }

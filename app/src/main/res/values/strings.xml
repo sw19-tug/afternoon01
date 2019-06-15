@@ -7,4 +7,6 @@
         <item>Name</item>
         <item>Size</item>
     </string-array>
+    <string name="permission_granted">Permission granted now you can read the storage</string>
+    <string name="permission_denied">Oops you just denied the permission</string>
 </resources>
