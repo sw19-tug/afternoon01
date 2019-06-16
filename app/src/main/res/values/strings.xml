@@ -7,6 +7,8 @@
         <item>Name</item>
         <item>Size</item>
     </string-array>
+    <string name="permission_granted">Permission granted now you can read the storage</string>
+    <string name="permission_denied">Oops you just denied the permission</string>
     <string name="rotate_left">Rotate Left by 90 Degrees</string>
     <string name="rotate_right">Rotate Right by 90 Degrees</string>
     <string name="share_image">Share this image</string>
