@@ -2,12 +2,9 @@ package at.tugraz.ist.swe.photogallery;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import org.junit.Before;
@@ -23,12 +20,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 /**
@@ -70,41 +64,75 @@ public class ShowPictureActivityTest {
     }
 
     @Test
-    public void testSelectPicture()  {
-        assertNotNull(((ImageView)showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable());
+    public void testSelectPicture() {
+        assertNotNull(((ImageView) showPictureRule.getActivity().findViewById(R.id.fullscreen_picture)).getDrawable());
     }
 
 
     @Test
-    public void testToolbarExists() {
-        assertNotNull(showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen));
-    }
-
-    @Test
-    public void testMenuExists() {
-        Toolbar toolbar = showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen);
-        assertNotNull(toolbar.getMenu());
-    }
-
-    @Test
-    public void testMenuItemsExist() {
-        Toolbar toolbar = showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen);
-        Menu menu = toolbar.getMenu();
-        assertNotNull(menu);
-        assertTrue(menu.hasVisibleItems());
-        assertEquals(1, menu.size());
-    }
-    @Test
-    public void testShareItemExists() {
-        Toolbar toolbar = showPictureRule.getActivity().findViewById(R.id.toolbar_fullscreen);
-        Menu menu = toolbar.getMenu();
-        assertNotNull(menu);
-        MenuItem share = menu.findItem(R.id.action_share);
+    public void testShareButtonExists() {
+        ImageButton share = showPictureRule.getActivity().findViewById(R.id.button_share);
         assertNotNull(share);
     }
 
+    @Test
+    public void testShareButtonEnabled() {
+        ImageButton share = showPictureRule.getActivity().findViewById(R.id.button_share);
+        assertNotNull(share);
+        assertTrue(share.isEnabled());
+    }
 
+    @Test
+    public void testShareButtonClickable() {
+        ImageButton share = showPictureRule.getActivity().findViewById(R.id.button_share);
+        assertNotNull(share);
+        assertTrue(share.isClickable());
+        onView(withId(R.id.fullscreen_picture)).perform(click());
+        onView(withId(R.id.button_share)).perform(click());
+    }
 
+    @Test
+    public void rotateLeftButtonExists() {
+        ImageButton rotate_left = showPictureRule.getActivity().findViewById(R.id.button_rotate_left);
+        assertNotNull(rotate_left);
+    }
 
+    @Test
+    public void rotateRightButtonExists() {
+        ImageButton rotate_right = showPictureRule.getActivity().findViewById(R.id.button_rotate_right);
+        assertNotNull(rotate_right);
+    }
+
+    @Test
+    public void rotateLeftButtonEnabled() {
+        ImageButton rotate_left = showPictureRule.getActivity().findViewById(R.id.button_rotate_left);
+        assertNotNull(rotate_left);
+        assertTrue(rotate_left.isEnabled());
+    }
+
+    @Test
+    public void rotateRightButtonEnabled() {
+        ImageButton rotate_right = showPictureRule.getActivity().findViewById(R.id.button_rotate_right);
+        assertNotNull(rotate_right);
+        assertTrue(rotate_right.isEnabled());
+    }
+
+    @Test
+    public void rotateLeftButtonClickable() {
+        ImageButton rotate_left = showPictureRule.getActivity().findViewById(R.id.button_rotate_left);
+        assertNotNull(rotate_left);
+        assertTrue(rotate_left.isClickable());
+        onView(withId(R.id.fullscreen_picture)).perform(click());
+        onView(withId(R.id.button_rotate_left)).perform(click());
+    }
+
+    @Test
+    public void rotateRightButtonClickable() {
+        ImageButton rotate_right = showPictureRule.getActivity().findViewById(R.id.button_rotate_right);
+        assertNotNull(rotate_right);
+        assertTrue(rotate_right.isClickable());
+        onView(withId(R.id.fullscreen_picture)).perform(click());
+        onView(withId(R.id.button_rotate_right)).perform(click());
+    }
 
 }
